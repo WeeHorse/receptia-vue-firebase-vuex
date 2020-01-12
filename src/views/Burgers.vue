@@ -31,18 +31,6 @@
 
   import {db} from '../my-firebase'
 
-  // console.log('recipies', db.ref('recipies'));
-
-  // // on change
-  // db.ref('recipies').on('value', function(snapshot) {
-  //   console.log(snapshot.val());
-  // });
-
-  // // on init
-  // db.ref('recipies').once('value').then(function(snapshot) {
-  //   console.log(snapshot.val());
-  // });
-
   export default{
 
     data(){
@@ -63,17 +51,18 @@
     },
     computed: {
       burgers(){
-        return this.$store.state.burgers;
+        //console.log(this.$store.state.burgers)
+        return this.$store.state.burgers
       }
     },
     created(){
-      // db.collection("recipies").get().then((querySnapshot) => {
-      //   querySnapshot.forEach((doc) => {
-      //       console.log(doc.data());
-      //       // doc.data().image = require(doc.data().image);
-      //       this.burgers.push(doc.data())
-      //   });
-      // });
+      //this.$store.dispatch('getBurgers')
+      db.collection("recipies").get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            console.log(doc.data());
+            this.burgers.push(doc.data())
+        })
+      })
     }
   }
 </script>
