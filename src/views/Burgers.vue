@@ -56,13 +56,14 @@
       }
     },
     created(){
-      //this.$store.dispatch('getBurgers')
-      db.collection("recipies").get().then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-            console.log(doc.data());
-            this.burgers.push(doc.data())
-        })
-      })
+      // this.$store.dispatch('getBurgers')
+      this.$store.dispatch('getLiveBurgers')
+      // db.collection("recipies").get().then((querySnapshot) => {
+      //   querySnapshot.forEach((doc) => {
+      //       console.log(doc.data());
+      //       this.burgers.push(doc.data())
+      //   })
+      // })
     }
   }
 </script>

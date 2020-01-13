@@ -1,7 +1,22 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
 Vue.use(Vuex)
+
+
+const fb = require('./my-firebase.js')
+const db = fb.db
+
+// handle page reload
+fb.auth.onAuthStateChanged(user => {
+  if (user) {
+    store.commit('setCurrentUser', user)
+    // store.dispatch('fetchUserProfile')
+
+    fb.usersCollection.doc(user.uid).onSnapshot(doc => {
+      store.commit('setUserProfile', doc.data())
+    })
+  }
+})
 
 export default new Vuex.Store({
   state: {
@@ -45,10 +60,12 @@ export default new Vuex.Store({
     // vi hämtar ifrån firebase istället..
     async getLiveBurgers({ commit }) {
       let querySnapshot = await db.collection("recipies").get()
+      let burgers = []
       querySnapshot.forEach((doc) => {
-        console.log(doc.data());
-        commit('gotBurgersData', doc.data());
+        burgers.push(doc.data())
       })
+      commit('gotBurgersData', burgers)
     }
   }
 })
+
